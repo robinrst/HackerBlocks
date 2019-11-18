@@ -34,58 +34,23 @@ const int inf = 0x3f3f3f3f;
 const int INF = 0x3f3f3f3f3f3f3f3f;
 
 int n,m,k,q;
+string s;
 vi adj[N];
-int vis[N],par[N],a[N];
-
-vi segTree[4*N];
- 
-void build (int v=1, int tl=0, int tr=n-1) {
-	if (tl == tr)
-		segTree[v] = vi (1, a[tl]);
-	else {
-		int tm = (tl + tr) / 2;
-		build (v*2, tl, tm);
-		build (v*2+1, tm+1, tr);
-		merge (segTree[v*2].begin(), segTree[v*2].end(), segTree[v*2+1].begin(), segTree[v*2+1].end(),
-			back_inserter (segTree[v]));
-	}
-}
-
-int query (int v, int tl, int tr, int l, int r, int x) {
-	if (l > r)
-		return 0;
-	if (l == tl && tr == r) {
-		auto pos = lower_bound (begin(segTree[v]), end(segTree[v]), x);
-		if (pos != segTree[v].end())
-			return segTree[v].size() - (pos - begin(segTree[v]));
-		return 0;
-	}
-	int tm = (tl + tr) / 2;
-	return  
-		query (v*2, tl, tm, l, min(r,tm), x) + query (v*2+1, tm+1, tr, max(l,tm+1), r, x);
-}
-
+int vis[N],par[N],a[N],sz[N],Q[N];
 
 void go()
 {
-	cin>>n;
-	fo(i,0,n) cin>>a[i];
+	cin>>s;	
 
-	build();
-
-	cin>>q;
-
-	while( q-- )
-	{
-		int l ,r ,x;
-		cin>>l>>r>>x;
-		--r,--l;
-		cout <<query(1,0,n-1,l,r,x) << endl;
-	}
 }
 
 int32_t main()
 {	
+	// #ifndef ONLINE_JUDGE
+	// 	freopen("input.txt","r",stdin);
+	// 	freopen("output.txt","w",stdout);
+	// #endif
+
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int t=1; 
 	// cin>>t;
